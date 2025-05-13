@@ -7,20 +7,14 @@ class WebScrapperService
 
   def call
     begin
-      response = fetch_data
-
-      if response.success?
-        parse_data(response.body)
-      else
-        handle_error(response.code)
-      end
+      parse_data(fetch_data)
     rescue StandardError => e
       handle_exception(e)
     end
   end
 
   def fetch_data
-    HTTParty.get(scraper_data.url)
+    SiteHistory.fetch_url(scraper_data.url)
   end
 
   def parse_data(data)
@@ -42,10 +36,6 @@ class WebScrapperService
   end
 
   private
-
-  def handle_error(code)
-    puts "Error fetching data: HTTP #{code}"
-  end
 
   def handle_exception(exception)
     puts "An error occurred: #{exception.message}"

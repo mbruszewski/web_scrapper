@@ -34,8 +34,8 @@ RSpec.describe WebScrapperService do
 
         expect(result).to eq({
           price: "100 euro",
-          rating_value: "50",
-          rating_count: "4.5"
+          rating_value: "4.5",
+          rating_count: "50"
         })
       end
     end
