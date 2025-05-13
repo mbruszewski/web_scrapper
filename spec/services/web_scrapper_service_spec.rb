@@ -63,5 +63,16 @@ RSpec.describe WebScrapperService do
         expect(parsed_data).to eq({ price: "100", count: "" })
       end
     end
+
+    context "when there is 'meta' tag" do
+      let(:fields) { { meta: [ "description", "image-link" ], price: ".price", count: ".count" } }
+      let(:html_data) { "<html><head><meta name='description' content='Test'></head><body><div class='price'>100</div></body></html>" }
+
+      it "returns existing values" do
+        parsed_data = service.parse_data(html_data)
+
+        expect(parsed_data).to eq({ meta: { description: "Test", "image-link": "" }, price: "100", count: "" })
+      end
+    end
   end
 end

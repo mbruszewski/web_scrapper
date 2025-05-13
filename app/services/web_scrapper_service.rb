@@ -26,12 +26,19 @@ class WebScrapperService
   def parse_data(data)
     nokogiri_html = Nokogiri::HTML(data)
     fields = scraper_data.fields
+    meta = fields.delete(:meta)
 
-    fields.each_with_object({}) do |(key, selector), result|
+    ret = fields.each_with_object({}) do |(key, selector), result|
       element = nokogiri_html.at_css(selector)
       value = element ? element.text.strip : ""
       result[key] = value
     end
+
+    ret[:meta] = meta.each_with_object({}) do |(selector), result|
+      result[selector.to_sym] = nokogiri_html.at_css("meta[name='#{selector}']")&.attribute("content")&.value || ""
+    end if meta
+
+    ret
   end
 
   private
