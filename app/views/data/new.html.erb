@@ -1,0 +1,19 @@
+<%= flash[:notice] %>
+
+<%= form_with model: @scraper_data, url: data_path, method: :post do |f| %>
+  <p>
+    <%= f.label :url %>
+    <%= f.text_field :url %>
+  </p>
+  <p>
+    <%= f.label :fields %>
+    <%= f.text_area :fields, rows: 5 %>
+  </p>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
+<% end %>
+
+<p>
+<%= @scraper_output %>
+</p>
